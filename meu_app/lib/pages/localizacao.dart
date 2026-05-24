@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+
 import '../componentes/menu_drawer.dart';
 
 class LocalizacaoPage extends StatelessWidget {
   const LocalizacaoPage({super.key});
 
   Future<void> abrirMapa() async {
-
     final Uri url = Uri.parse(
-      "https://www.google.com/maps",
+      "https://www.google.com/maps/search/?api=1&query=Estrada+do+Tambory,+36+Carapicuiba+SP",
     );
 
     if (await canLaunchUrl(url)) {
-      await launchUrl(url);
+      await launchUrl(
+        url,
+        mode: LaunchMode.externalApplication,
+      );
     }
   }
 
@@ -20,12 +23,14 @@ class LocalizacaoPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: const MenuDrawer(),
+
       backgroundColor: const Color(0xFFF5E7CF),
 
       appBar: AppBar(
         backgroundColor: const Color(0xFFD13CFF),
         elevation: 0,
         centerTitle: true,
+
         title: const Text(
           "Onde Estamos",
           style: TextStyle(
@@ -33,7 +38,10 @@ class LocalizacaoPage extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-        iconTheme: const IconThemeData(color: Colors.black),
+
+        iconTheme: const IconThemeData(
+          color: Colors.black,
+        ),
       ),
 
       body: SingleChildScrollView(
@@ -42,6 +50,7 @@ class LocalizacaoPage extends StatelessWidget {
 
             const SizedBox(height: 30),
 
+            /// TÍTULO
             const Text(
               "VENHA NOS VISITAR",
               style: TextStyle(
@@ -52,17 +61,27 @@ class LocalizacaoPage extends StatelessWidget {
 
             const SizedBox(height: 30),
 
-            /// MAPA
+            /// CARD MAPA
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 20),
+
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(25),
                 color: Colors.white,
+
+                boxShadow: const [
+                  BoxShadow(
+                    color: Colors.black12,
+                    blurRadius: 8,
+                    offset: Offset(0, 4),
+                  ),
+                ],
               ),
 
               child: Column(
                 children: [
 
+                  /// IMAGEM MAPA
                   ClipRRect(
                     borderRadius: const BorderRadius.vertical(
                       top: Radius.circular(25),
@@ -70,9 +89,13 @@ class LocalizacaoPage extends StatelessWidget {
 
                     child: Image.asset(
                       "assets/mapa.png",
+                      width: double.infinity,
+                      height: 300,
+                      fit: BoxFit.cover,
                     ),
                   ),
 
+                  /// BOTÃO GOOGLE MAPS
                   SizedBox(
                     width: double.infinity,
 
@@ -81,7 +104,11 @@ class LocalizacaoPage extends StatelessWidget {
 
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.deepPurpleAccent,
-                        padding: const EdgeInsets.all(18),
+
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 18,
+                        ),
+
                         shape: const RoundedRectangleBorder(
                           borderRadius: BorderRadius.vertical(
                             bottom: Radius.circular(25),
@@ -108,6 +135,7 @@ class LocalizacaoPage extends StatelessWidget {
             /// ENDEREÇO
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 20),
+
               padding: const EdgeInsets.all(25),
 
               decoration: BoxDecoration(
@@ -117,6 +145,7 @@ class LocalizacaoPage extends StatelessWidget {
 
               child: const Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+
                 children: [
 
                   Text(
@@ -141,34 +170,36 @@ class LocalizacaoPage extends StatelessWidget {
 
             const SizedBox(height: 50),
 
-            /// LOGO
-            ClipRRect(
-              borderRadius: BorderRadius.circular(30),
+            ///LOGOTIPO
+            Center(
               child: Image.asset(
-                "assets/logo.png",
+                "assets/logo.jpeg",
                 width: 180,
+                fit: BoxFit.contain,
               ),
             ),
 
             const SizedBox(height: 50),
 
+            /// GRADIENTE FINAL
             Container(
               height: 120,
+
               decoration: const BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
                     Color(0x00FFFFFF),
                     Color(0xFFD13CFF),
                   ],
+
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),
     );
   }
 }
-

@@ -43,14 +43,12 @@ class HistoriaPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
 
-                  /// IMAGEM
+                  /// LOGOTIPO
                   Center(
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(20),
-                      child: Image.asset(
-                        "assets/logo.png",
-                        height: 250,
-                      ),
+                    child: Image.asset(
+                      "assets/logo.jpeg",
+                      width: 180,
+                      fit: BoxFit.contain,
                     ),
                   ),
 

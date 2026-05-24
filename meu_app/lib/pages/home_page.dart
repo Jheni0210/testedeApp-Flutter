@@ -8,12 +8,14 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: const MenuDrawer(),
+
       backgroundColor: const Color(0xFFF5E7CF),
 
       appBar: AppBar(
         backgroundColor: const Color(0xFFD13CFF),
         elevation: 0,
         centerTitle: true,
+
         title: const Text(
           "Ministério Esperança",
           style: TextStyle(
@@ -21,43 +23,38 @@ class HomePage extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-        iconTheme: const IconThemeData(color: Colors.black),
+
+        iconTheme: const IconThemeData(
+          color: Colors.black,
+        ),
       ),
 
       body: SingleChildScrollView(
         child: Column(
           children: [
 
-            const SizedBox(height: 30),
+            const SizedBox(height: 25),
 
-            /// LOGO
+            /// LOGOTIPO
             Center(
-              child: Container(
-                width: 160,
-                height: 160,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(100),
-                ),
-
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(100),
-                  child: Image.asset(
-                    "assets/logo.png",
-                    fit: BoxFit.cover,
-                  ),
-                ),
+              child: Image.asset(
+                "assets/logo.jpeg",
+                width: 180,
+                fit: BoxFit.contain,
               ),
             ),
 
-            const SizedBox(height: 20),
+            const SizedBox(height: 25),
 
-            /// TEXO
+            /// TEXTO
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 25),
+
               child: Text(
                 "Bem-vindo à nossa igreja",
+
                 textAlign: TextAlign.center,
+
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
@@ -77,11 +74,15 @@ class HomePage extends StatelessWidget {
             /// HORÁRIOS
             Container(
               width: double.infinity,
-              margin: const EdgeInsets.symmetric(horizontal: 25),
+
+              margin: const EdgeInsets.symmetric(
+                horizontal: 25,
+              ),
+
               padding: const EdgeInsets.all(20),
 
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.4),
+                color: Colors.white.withValues(alpha: 0.4),
                 borderRadius: BorderRadius.circular(20),
               ),
 
@@ -131,20 +132,22 @@ class HomePage extends StatelessWidget {
 
             const SizedBox(height: 60),
 
-            /// DEGRADE FINAL
+            /// DEGRADÊ FINAL
             Container(
               height: 120,
+
               decoration: const BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
                     Color(0x00FFFFFF),
                     Color(0xFFD13CFF),
                   ],
+
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),
