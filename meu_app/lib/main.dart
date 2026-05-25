@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
+
 
 /// IMPORTANDO AS PÁGINAS
 import 'pages/home_page.dart';
@@ -8,6 +10,16 @@ import 'pages/biblia.dart';
 import 'pages/voluntariado.dart';
 
 void main() {
+  Future<void> abrirLink(String url) async {
+    final Uri uri = Uri.parse(url);
+
+    if (!await launchUrl(
+      uri,
+      mode: LaunchMode.externalApplication,
+    )) {
+      throw Exception('Não foi possível abrir o link');
+    }
+  }
   runApp(const MeuApp());
 }
 

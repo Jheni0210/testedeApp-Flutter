@@ -1,21 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+
 import '../componentes/menu_drawer.dart';
 import '../services/biblia_services.dart';
 import '../modelos/biblia_modelos.dart';
 
 class BibliaPage extends StatefulWidget {
+  const BibliaPage({super.key});
+
   @override
-  _BibliaPageState createState() => _BibliaPageState();
+  State<BibliaPage> createState() => _BibliaPageState();
 }
 
 class _BibliaPageState extends State<BibliaPage> {
   String busca = "";
 
-  void abrirLink(String url) async {
+  // ✅ FUNÇÃO CORRIGIDA (funciona no Android e Web)
+  Future<void> abrirLink(String url) async {
     final Uri uri = Uri.parse(url);
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri);
+
+    try {
+      await launchUrl(
+        uri,
+        mode: LaunchMode.externalApplication,
+      );
+    } catch (e) {
+      debugPrint("Erro ao abrir link: $e");
     }
   }
 
@@ -23,8 +33,9 @@ class _BibliaPageState extends State<BibliaPage> {
   Widget build(BuildContext context) {
     List<LivroBiblia> livrosFiltrados = BibliaService.livros
         .where(
-          (livro) => livro.nome.toLowerCase().contains(busca.toLowerCase()),
-        )
+          (livro) =>
+          livro.nome.toLowerCase().contains(busca.toLowerCase()),
+    )
         .toList();
 
     List<LivroBiblia> antigo = livrosFiltrados
@@ -36,17 +47,20 @@ class _BibliaPageState extends State<BibliaPage> {
         .toList();
 
     return Scaffold(
-      appBar: AppBar(title: Text("Bíblia Sagrada")),
-      drawer: MenuDrawer(),
+      appBar: AppBar(
+        title: const Text("Bíblia Sagrada"),
+      ),
+      drawer: const MenuDrawer(),
+
       body: Column(
         children: [
           // 🔍 BUSCA
           Padding(
-            padding: EdgeInsets.all(12),
+            padding: const EdgeInsets.all(12),
             child: TextField(
               decoration: InputDecoration(
                 hintText: "Buscar livro...",
-                prefixIcon: Icon(Icons.search),
+                prefixIcon: const Icon(Icons.search),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
@@ -64,11 +78,11 @@ class _BibliaPageState extends State<BibliaPage> {
               children: [
                 // 📜 ANTIGO TESTAMENTO
                 tituloSecao("Antigo Testamento"),
-                ...antigo.map((livro) => cardLivro(livro)).toList(),
+                ...antigo.map((livro) => cardLivro(livro)),
 
                 // ✝️ NOVO TESTAMENTO
                 tituloSecao("Novo Testamento"),
-                ...novo.map((livro) => cardLivro(livro)).toList(),
+                ...novo.map((livro) => cardLivro(livro)),
               ],
             ),
           ),
@@ -80,10 +94,13 @@ class _BibliaPageState extends State<BibliaPage> {
   // 📌 TÍTULO
   Widget tituloSecao(String titulo) {
     return Padding(
-      padding: EdgeInsets.all(12),
+      padding: const EdgeInsets.all(12),
       child: Text(
         titulo,
-        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        style: const TextStyle(
+          fontSize: 18,
+          fontWeight: FontWeight.bold,
+        ),
       ),
     );
   }
@@ -91,16 +108,25 @@ class _BibliaPageState extends State<BibliaPage> {
   // 📦 CARD
   Widget cardLivro(LivroBiblia livro) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
-        boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 4)],
+        boxShadow: const [
+          BoxShadow(
+            color: Colors.black12,
+            blurRadius: 4,
+          )
+        ],
       ),
       child: ListTile(
         title: Text(livro.nome),
-        trailing: Icon(Icons.arrow_forward_ios),
-        onTap: () => abrirLink(livro.link),
+        trailing: const Icon(Icons.arrow_forward_ios),
+
+        // ✅ CORRIGIDO PARA MOBILE
+        onTap: () {
+          abrirLink(livro.link);
+        },
       ),
     );
   }

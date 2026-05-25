@@ -11,11 +11,13 @@ class LocalizacaoPage extends StatelessWidget {
       "https://www.google.com/maps/search/?api=1&query=Estrada+do+Tambory,+36+Carapicuiba+SP",
     );
 
-    if (await canLaunchUrl(url)) {
+    try {
       await launchUrl(
         url,
         mode: LaunchMode.externalApplication,
       );
+    } catch (e) {
+      debugPrint("Erro ao abrir mapa: $e");
     }
   }
 
